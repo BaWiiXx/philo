@@ -6,7 +6,7 @@
 /*   By: bdany <bdany@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:00:29 by bdany             #+#    #+#             */
-/*   Updated: 2024/09/03 14:36:48 by bdany            ###   ########.fr       */
+/*   Updated: 2024/09/05 16:49:25 by bdany            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	is_think(t_philo *philo)
 	if (stop_all(philo))
 		return ;
 	print_action(philo, "is thinking");
+	lock_fork(philo);
 }
 
 static void	is_sleep(t_philo *philo)
@@ -31,40 +32,37 @@ void	is_eating(t_philo *philo)
 {
 	if (!(stop_all(philo)))
 	{
-		if (!(philo->philo_id % 2))
-			lock_fork_even(philo);
-		else
-			lock_fork_odd(philo);
-		pthread_mutex_lock(&philo->data->last_m_mutex);
+		print_action(philo, "is eating");
+		pthread_mutex_lock(&philo->data->dead_mutex);
 		philo->last_meal_time = get_current_time() - philo->data->start;
-		pthread_mutex_unlock(&philo->data->last_m_mutex);
+		pthread_mutex_unlock(&philo->data->dead_mutex);
 		ft_usleep(philo->data->t_to_eat, philo);
-		pthread_mutex_lock(&philo->data->eat_c_mutex);
 		philo->meals_eaten++;
-		pthread_mutex_unlock(&philo->data->eat_c_mutex);
 		release_fork(philo);
 	}
 }
 
 int	*routine(t_philo *philo)
 {
-	if (philo->philo_id % 2 != 0)
-		ft_usleep(philo->data->t_to_eat, philo);
 	if (philo->data->n_philo == 1)
 	{
-		print_action(philo, "has taken left fork");
+		print_action(philo, "has taken a fork");
 		return (NULL);
 	}
+	if (philo->philo_id % 2 != 0)
+		usleep(10000);
+	is_think(philo);
 	while (1)
 	{
+		if (stop_all(philo))
+			break ;
 		is_eating(philo);
 		if (stop_all(philo))
-			return (NULL);
+			break ;
 		is_sleep(philo);
 		if (stop_all(philo))
-			return (NULL);
+			break ;
 		is_think(philo);
-		usleep(100);
 	}
 	return (0);
 }

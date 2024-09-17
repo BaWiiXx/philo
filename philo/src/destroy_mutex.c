@@ -6,7 +6,7 @@
 /*   By: bdany <bdany@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:32:21 by baptiste          #+#    #+#             */
-/*   Updated: 2024/09/03 14:25:26 by bdany            ###   ########.fr       */
+/*   Updated: 2024/09/05 16:51:59 by bdany            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,4 @@ void	destroy_all_mutex(t_data *data)
 	}
 	pthread_mutex_destroy(&data->dead_mutex);
 	pthread_mutex_destroy(&data->printf_mutex);
-	pthread_mutex_destroy(&data->last_m_mutex);
-	pthread_mutex_destroy(&data->eat_c_mutex);
 }

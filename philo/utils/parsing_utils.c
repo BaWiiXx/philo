@@ -6,26 +6,13 @@
 /*   By: bdany <bdany@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:01:11 by bdany             #+#    #+#             */
-/*   Updated: 2024/08/30 18:19:03 by bdany            ###   ########.fr       */
+/*   Updated: 2024/09/05 17:18:13 by bdany            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*tab;
-
-	if ((size * count > INT32_MAX) || (size > UINT16_MAX && count > UINT16_MAX))
-		return (NULL);
-	tab = malloc(count * size);
-	if (!tab)
-		return (NULL);
-	ft_bzero(tab, count * size);
-	return (tab);
-}
-
-void	ft_bzero(void *s, size_t n)
+static void	ft_bzero(void *s, size_t n)
 {
 	size_t			i;
 	unsigned char	*temp;
@@ -38,6 +25,19 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 	return ;
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*tab;
+
+	if ((size * count > INT32_MAX) || (size > UINT16_MAX && count > UINT16_MAX))
+		return (NULL);
+	tab = malloc(count * size);
+	if (!tab)
+		return (NULL);
+	ft_bzero(tab, count * size);
+	return (tab);
 }
 
 int	ft_atoi(const char *nptr)
@@ -54,7 +54,7 @@ int	ft_atoi(const char *nptr)
 	if (nptr[i] == '-' || nptr[i] == '+')
 	{
 		if (nptr[i] == '-')
-			s *= -1;
+			return (-1);
 		i++;
 	}
 	while (nptr[i])

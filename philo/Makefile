@@ -9,8 +9,8 @@ RM=rm -f
 
 CC= clang
 
-CFLAGS= -Wall -Wextra -Werror -I.
-INCFLAGS = -Iincludes
+CFLAGS= -Wall -Wextra -Werror -g
+INCFLAGS = -includes
 LDFLAGS = -lpthread
 
 all: $(NAME)

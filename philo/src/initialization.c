@@ -6,7 +6,7 @@
 /*   By: bdany <bdany@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:24:19 by baptiste          #+#    #+#             */
-/*   Updated: 2024/09/03 14:30:22 by bdany            ###   ########.fr       */
+/*   Updated: 2024/09/05 16:51:48 by bdany            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_data(t_data *data, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	data->start = get_current_time();
-	data->not_hungry = 0;
+	data->n_eat = 0;
 	data->dead_philo = 0;
 }
 
@@ -45,8 +45,6 @@ int	init_philo(t_philo *philo, t_data *data)
 		return (-1);
 	pthread_mutex_init(&data->dead_mutex, NULL);
 	pthread_mutex_init(&data->printf_mutex, NULL);
-	pthread_mutex_init(&data->eat_c_mutex, NULL);
-	pthread_mutex_init(&data->last_m_mutex, NULL);
 	i = 0;
 	while (i < data->n_philo)
 	{
@@ -54,6 +52,7 @@ int	init_philo(t_philo *philo, t_data *data)
 		philo[i].data = data;
 		philo[i].philo_id = i + 1;
 		philo[i].meals_eaten = 0;
+		philo[i].fed_up = 0;
 		philo[i].last_meal_time = 0;
 		philo[i].left_forks = &data->forks[i];
 		philo[i].right_forks = &data->forks[(i + 1) % philo->data->n_philo];
@@ -62,4 +61,3 @@ int	init_philo(t_philo *philo, t_data *data)
 	}
 	return (0);
 }
-

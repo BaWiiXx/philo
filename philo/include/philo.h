@@ -6,7 +6,7 @@
 /*   By: bdany <bdany@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:01:05 by bdany             #+#    #+#             */
-/*   Updated: 2024/08/30 18:22:54 by bdany            ###   ########.fr       */
+/*   Updated: 2024/09/05 17:13:04 by bdany            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_data
 	int				t_to_eat;
 	int				t_to_sleep;
 	int				n_meals;
-	int				not_hungry;
+	int				n_eat;
 	int				dead_philo;
 	long int		start;
 	pthread_mutex_t	printf_mutex;
@@ -52,13 +52,13 @@ typedef struct s_philo
 	t_fork			*right_forks;
 	int				nb_fork;
 	int				meals_eaten;
+	int				fed_up;
 	long			last_meal_time;
 	t_data			*data;
 	pthread_t		thread_id;
 }					t_philo;
 
 void				*ft_calloc(size_t count, size_t size);
-void				ft_bzero(void *s, size_t n);
 int					ft_atoi(const char *nptr);
 void				ft_putstr_fd(char *s, int fd);
 void				print_action(t_philo *philo, char *str);
@@ -67,14 +67,12 @@ int					*routine(t_philo *philo);
 long int			get_current_time(void);
 int					stop_all(t_philo *philo);
 int					check_argument(char **av);
-int					init_mutex(t_data *data);
 int					init_philo(t_philo *philo, t_data *data);
 void				init_data(t_data *data, char **argv);
 void				destroy_all_mutex(t_data *data);
 void				supervisor(t_philo *philo);
 void				handle_threads(t_philo *philo);
 void				release_fork(t_philo *philo);
-void				lock_fork_even(t_philo *philo);
-void				lock_fork_odd(t_philo *philo);
+void				lock_fork(t_philo *philo);
 
 #endif
